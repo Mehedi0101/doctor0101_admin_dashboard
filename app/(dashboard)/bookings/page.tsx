@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
+import UpdateBookingStatusModal from "@/components/modals/UpdateBookingStatusModal";
 
 export default function AllBookingsPage() {
     // State
@@ -32,6 +33,15 @@ export default function AllBookingsPage() {
     // Search State
     const [searchTerm, setSearchTerm] = useState("");
     const [debouncedSearch, setDebouncedSearch] = useState("");
+
+    // Modal State
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+    const [selectedBooking, setSelectedBooking] = useState<{
+        id: string;
+        customerName: string;
+        bookingStatus: string;
+        paymentStatus: string;
+    } | null>(null);
 
     React.useEffect(() => {
         const timer = setTimeout(() => {
@@ -253,13 +263,22 @@ export default function AllBookingsPage() {
                                     </td>
                                     <td className="px-8 py-6">
                                         <div className="flex items-center justify-center gap-2 transition-all">
-                                            <button
+                                            <button 
+                                                onClick={() => {
+                                                    setSelectedBooking({
+                                                        id: booking._id,
+                                                        customerName: booking.customerName || "Customer",
+                                                        bookingStatus: booking.bookingStatus,
+                                                        paymentStatus: booking.paymentStatus,
+                                                    });
+                                                    setIsUpdateModalOpen(true);
+                                                }}
                                                 className="p-2.5 rounded-xl text-slate-400 hover:text-primary hover:bg-primary/5 transition-all border border-transparent hover:border-primary/10"
                                                 title="Update Status"
                                             >
                                                 <Edit2 className="w-4 h-4" />
                                             </button>
-                                            <button
+                                            <button 
                                                 className="p-2.5 rounded-xl text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all border border-transparent hover:border-red-100"
                                                 title="Remove Booking"
                                             >
@@ -314,6 +333,21 @@ export default function AllBookingsPage() {
                     </div>
                 )}
             </div>
+
+            {/* Modals */}
+            {selectedBooking && (
+                <UpdateBookingStatusModal
+                    bookingId={selectedBooking.id}
+                    customerName={selectedBooking.customerName}
+                    currentBookingStatus={selectedBooking.bookingStatus}
+                    currentPaymentStatus={selectedBooking.paymentStatus}
+                    isOpen={isUpdateModalOpen}
+                    onClose={() => {
+                        setIsUpdateModalOpen(false);
+                        setSelectedBooking(null);
+                    }}
+                />
+            )}
         </div>
     );
 }
