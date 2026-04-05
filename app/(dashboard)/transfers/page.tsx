@@ -19,8 +19,12 @@ import {
     ArrowRight
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import EditTransferModal from "@/components/modals/EditTransferModal";
 
 export default function AllTransfersPage() {
+    const [selectedTransferId, setSelectedTransferId] = React.useState<string | null>(null);
+    const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
+
     const { data: response, isLoading, isError, refetch } = useGetAllTransportsQuery();
     const transports = response?.data || [];
 
@@ -122,7 +126,10 @@ export default function AllTransfersPage() {
                                     <td className="px-8 py-6">
                                         <div className="flex items-center justify-center gap-2 transition-all">
                                             <button 
-                                                disabled
+                                                onClick={() => {
+                                                    setSelectedTransferId(transport._id!);
+                                                    setIsEditModalOpen(true);
+                                                }}
                                                 className="p-2.5 rounded-xl text-slate-400 hover:text-primary hover:bg-primary/5 transition-all border border-transparent hover:border-primary/10"
                                                 title="Edit Service"
                                             >
@@ -163,6 +170,18 @@ export default function AllTransfersPage() {
                     </table>
                 </div>
             </div>
+
+            {/* Edit Modal */}
+            {selectedTransferId && (
+                <EditTransferModal
+                    transferId={selectedTransferId}
+                    isOpen={isEditModalOpen}
+                    onClose={() => {
+                        setIsEditModalOpen(false);
+                        setSelectedTransferId(null);
+                    }} 
+                />
+            )}
         </div>
     );
 }
