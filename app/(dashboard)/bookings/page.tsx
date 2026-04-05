@@ -24,6 +24,7 @@ import {
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
 import UpdateBookingStatusModal from "@/components/modals/UpdateBookingStatusModal";
+import ConfirmDeleteBookingModal from "@/components/modals/ConfirmDeleteBookingModal";
 
 export default function AllBookingsPage() {
     // State
@@ -41,6 +42,12 @@ export default function AllBookingsPage() {
         customerName: string;
         bookingStatus: string;
         paymentStatus: string;
+    } | null>(null);
+
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [bookingToDelete, setBookingToDelete] = useState<{
+        id: string;
+        customerName: string;
     } | null>(null);
 
     React.useEffect(() => {
@@ -279,6 +286,13 @@ export default function AllBookingsPage() {
                                                 <Edit2 className="w-4 h-4" />
                                             </button>
                                             <button 
+                                                onClick={() => {
+                                                    setBookingToDelete({
+                                                        id: booking._id,
+                                                        customerName: booking.customerName || "Customer",
+                                                    });
+                                                    setIsDeleteModalOpen(true);
+                                                }}
                                                 className="p-2.5 rounded-xl text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all border border-transparent hover:border-red-100"
                                                 title="Remove Booking"
                                             >
@@ -345,6 +359,18 @@ export default function AllBookingsPage() {
                     onClose={() => {
                         setIsUpdateModalOpen(false);
                         setSelectedBooking(null);
+                    }}
+                />
+            )}
+
+            {bookingToDelete && (
+                <ConfirmDeleteBookingModal
+                    bookingId={bookingToDelete.id}
+                    customerName={bookingToDelete.customerName}
+                    isOpen={isDeleteModalOpen}
+                    onClose={() => {
+                        setIsDeleteModalOpen(false);
+                        setBookingToDelete(null);
                     }}
                 />
             )}
