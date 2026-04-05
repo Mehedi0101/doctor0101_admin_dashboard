@@ -20,10 +20,14 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EditTourModal from "@/components/modals/EditTourModal";
+import ConfirmDeleteModal from "@/components/modals/ConfirmDeleteModal";
 
 export default function AllToursPage() {
     const [selectedTourId, setSelectedTourId] = React.useState<string | null>(null);
     const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
+    
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
+    const [tourToDelete, setTourToDelete] = React.useState<{ id: string; title: string } | null>(null);
     
     const { data: response, isLoading, isError, refetch } = useGetAllToursQuery();
     const tours = response?.data || [];
@@ -172,8 +176,11 @@ export default function AllToursPage() {
                                                     <Edit2 className="w-4 h-4" />
                                                 </button>
                                                 <button 
-                                                    disabled
-                                                    className="p-2.5 rounded-xl text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all border border-transparent hover:border-red-100"
+                                                    onClick={() => {
+                                                        setTourToDelete({ id: tour._id || "", title: tour.title });
+                                                        setIsDeleteModalOpen(true);
+                                                    }}
+                                                    className="p-2.5 rounded-xl text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all border border-transparent hover:border-red-100 group-hover:text-red-400 group-hover:bg-red-50/50"
                                                     title="Delete Package"
                                                 >
                                                     <Trash2 className="w-4 h-4" />
@@ -199,6 +206,19 @@ export default function AllToursPage() {
                         setIsEditModalOpen(false);
                         setSelectedTourId(null);
                     }} 
+                />
+            )}
+
+            {/* Delete Confirmation Modal */}
+            {tourToDelete && (
+                <ConfirmDeleteModal
+                    tourId={tourToDelete.id}
+                    tourTitle={tourToDelete.title}
+                    isOpen={isDeleteModalOpen}
+                    onClose={() => {
+                        setIsDeleteModalOpen(false);
+                        setTourToDelete(null);
+                    }}
                 />
             )}
         </div>
