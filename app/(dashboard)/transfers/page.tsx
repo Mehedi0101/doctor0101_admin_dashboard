@@ -20,10 +20,14 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EditTransferModal from "@/components/modals/EditTransferModal";
+import ConfirmDeleteTransferModal from "@/components/modals/ConfirmDeleteTransferModal";
 
 export default function AllTransfersPage() {
     const [selectedTransferId, setSelectedTransferId] = React.useState<string | null>(null);
     const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
+    
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
+    const [transferToDelete, setTransferToDelete] = React.useState<{ id: string; title: string } | null>(null);
 
     const { data: response, isLoading, isError, refetch } = useGetAllTransportsQuery();
     const transports = response?.data || [];
@@ -136,7 +140,10 @@ export default function AllTransfersPage() {
                                                 <Edit2 className="w-4 h-4" />
                                             </button>
                                             <button 
-                                                disabled
+                                                onClick={() => {
+                                                    setTransferToDelete({ id: transport._id!, title: transport.title });
+                                                    setIsDeleteModalOpen(true);
+                                                }}
                                                 className="p-2.5 rounded-xl text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all border border-transparent hover:border-red-100"
                                                 title="Remove Service"
                                             >
@@ -180,6 +187,19 @@ export default function AllTransfersPage() {
                         setIsEditModalOpen(false);
                         setSelectedTransferId(null);
                     }} 
+                />
+            )}
+
+            {/* Delete Modal */}
+            {transferToDelete && (
+                <ConfirmDeleteTransferModal
+                    transferId={transferToDelete.id}
+                    transferTitle={transferToDelete.title}
+                    isOpen={isDeleteModalOpen}
+                    onClose={() => {
+                        setIsDeleteModalOpen(false);
+                        setTransferToDelete(null);
+                    }}
                 />
             )}
         </div>

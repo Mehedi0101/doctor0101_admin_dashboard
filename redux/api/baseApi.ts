@@ -19,10 +19,23 @@ const baseQueryWithAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQuery
     api,
     extraOptions
 ) => {
+    // Guard: If the Redux store has a token but localStorage no longer has it,
+    // the user has manually cleared their session. Clear the Redux state so
+    // AuthGuard can redirect cleanly via React Router (no hard page reload).
+    const storeToken = (api.getState() as RootState).auth.token;
+    const localToken = typeof window !== "undefined" ? localStorage.getItem("thedoctor_token") : null;
+
+    if (storeToken && !localToken) {
+        api.dispatch(logout());
+        // Return early — no need to make the request. AuthGuard will redirect.
+        return { error: { status: 401, data: "Session expired" } as FetchBaseQueryError };
+    }
+
     let result = await baseQuery(args, api, extraOptions);
 
     if (result.error && result.error.status === 401) {
-        // If unauthorized, log the user out
+        // Server rejected the token — clear Redux state.
+        // AuthGuard will detect no token and redirect to /login automatically.
         api.dispatch(logout());
     }
     return result;
