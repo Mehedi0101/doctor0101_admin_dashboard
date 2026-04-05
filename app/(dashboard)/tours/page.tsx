@@ -19,8 +19,12 @@ import {
     Phone
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import EditTourModal from "@/components/modals/EditTourModal";
 
 export default function AllToursPage() {
+    const [selectedTourId, setSelectedTourId] = React.useState<string | null>(null);
+    const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
+    
     const { data: response, isLoading, isError, refetch } = useGetAllToursQuery();
     const tours = response?.data || [];
 
@@ -157,14 +161,17 @@ export default function AllToursPage() {
                                         {/* Actions */}
                                         <td className="px-8 py-6">
                                             <div className="flex items-center justify-center gap-3">
-                                                <button
-                                                    disabled
-                                                    className="p-2.5 rounded-xl text-slate-400 hover:text-primary hover:bg-primary/10 transition-all border border-transparent hover:border-primary/20"
+                                                <button 
+                                                    onClick={() => {
+                                                        setSelectedTourId(tour._id || null);
+                                                        setIsEditModalOpen(true);
+                                                    }}
+                                                    className="p-2.5 rounded-xl text-slate-400 hover:text-primary hover:bg-primary/10 transition-all border border-transparent hover:border-primary/20 group-hover:text-primary group-hover:bg-primary/5"
                                                     title="Edit Package"
                                                 >
                                                     <Edit2 className="w-4 h-4" />
                                                 </button>
-                                                <button
+                                                <button 
                                                     disabled
                                                     className="p-2.5 rounded-xl text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all border border-transparent hover:border-red-100"
                                                     title="Delete Package"
@@ -182,6 +189,18 @@ export default function AllToursPage() {
                     <EmptyTours />
                 )}
             </div>
+
+            {/* Edit Modal */}
+            {selectedTourId && (
+                <EditTourModal 
+                    tourId={selectedTourId} 
+                    isOpen={isEditModalOpen} 
+                    onClose={() => {
+                        setIsEditModalOpen(false);
+                        setSelectedTourId(null);
+                    }} 
+                />
+            )}
         </div>
     );
 }

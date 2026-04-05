@@ -7,7 +7,8 @@ export interface ITour {
     location: string;
     duration: string;
     type: TTourType;
-    image: string;
+    image?: string; // For transformed list view
+    images?: string[]; // For full data management
     features?: string[];
     frequency?: string;
     totalSpot?: number;
