@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useGetAllToursQuery } from "@/redux/api/tourApi";
+import { useGetAllToursQuery, useToggleFeaturedStatusMutation } from "@/redux/api/tourApi";
 import Link from "next/link";
 import {
     Plus,
@@ -16,9 +16,11 @@ import {
     Globe,
     Calendar,
     ArrowRight,
-    Phone
+    Phone,
+    Loader2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 import EditTourModal from "@/components/modals/EditTourModal";
 import ConfirmDeleteModal from "@/components/modals/ConfirmDeleteModal";
 
@@ -28,9 +30,24 @@ export default function AllToursPage() {
     
     const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
     const [tourToDelete, setTourToDelete] = React.useState<{ id: string; title: string } | null>(null);
+
+    const [toggleFeatured, { isLoading: isToggleLoading }] = useToggleFeaturedStatusMutation();
+    const [togglingId, setTogglingId] = React.useState<string | null>(null);
     
     const { data: response, isLoading, isError, refetch } = useGetAllToursQuery();
     const tours = response?.data || [];
+
+    const handleToggleFeatured = async (id: string, currentStatus: boolean) => {
+        try {
+            setTogglingId(id);
+            await toggleFeatured(id).unwrap();
+            toast.success(`Tour ${currentStatus ? "removed from" : "added to"} featured list`);
+        } catch (error) {
+            toast.error("Failed to update featured status");
+        } finally {
+            setTogglingId(null);
+        }
+    };
 
     if (isLoading) {
         return <ToursSkeleton />;
@@ -85,6 +102,7 @@ export default function AllToursPage() {
                                     <th className="px-8 py-5 text-left text-xs font-black text-slate-400 uppercase tracking-widest">Package Details</th>
                                     <th className="px-8 py-5 text-left text-xs font-black text-slate-400 uppercase tracking-widest">Duration</th>
                                     <th className="px-8 py-5 text-left text-xs font-black text-slate-400 uppercase tracking-widest">Category</th>
+                                    <th className="px-8 py-5 text-left text-xs font-black text-slate-400 uppercase tracking-widest">Featured</th>
                                     <th className="px-8 py-5 text-left text-xs font-black text-slate-400 uppercase tracking-widest">Spots Left</th>
                                     <th className="px-8 py-5 text-left text-xs font-black text-slate-400 uppercase tracking-widest">Contacts</th>
                                     <th className="px-8 py-5 text-center text-xs font-black text-slate-400 uppercase tracking-widest">Actions</th>
@@ -139,6 +157,27 @@ export default function AllToursPage() {
                                             )}>
                                                 {tour.type}
                                             </span>
+                                        </td>
+
+                                        {/* Featured Toggle */}
+                                        <td className="px-8 py-6">
+                                            <button
+                                                onClick={() => handleToggleFeatured(tour._id!, tour.featured || false)}
+                                                disabled={togglingId === tour._id}
+                                                className={cn(
+                                                    "relative w-12 h-6 rounded-full transition-all duration-300 flex items-center p-1",
+                                                    tour.featured ? "bg-secondary shadow-[0_0_10px_rgba(255,193,7,0.3)]" : "bg-slate-200"
+                                                )}
+                                            >
+                                                <div className={cn(
+                                                    "w-4 h-4 rounded-full transition-all duration-300 flex items-center justify-center",
+                                                    tour.featured ? "bg-white translate-x-6" : "bg-white translate-x-0 shadow-sm"
+                                                )}>
+                                                    {togglingId === tour._id && (
+                                                        <Loader2 className="w-2.5 h-2.5 text-secondary animate-spin" />
+                                                    )}
+                                                </div>
+                                            </button>
                                         </td>
 
                                         {/* Spots Left */}

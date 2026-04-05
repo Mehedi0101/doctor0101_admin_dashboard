@@ -52,7 +52,6 @@ const mainMenuItems = [
         subItems: [
             { name: "All Tours", icon: Compass, href: "/tours" },
             { name: "Add Tour", icon: Plus, href: "/tours/add" },
-            { name: "Featured", icon: Star, href: "/tours/featured" },
         ],
     },
     {
