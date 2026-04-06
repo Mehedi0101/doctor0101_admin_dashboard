@@ -40,6 +40,13 @@ export const blogApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["Blog"],
         }),
+        makeBlogFeatured: builder.mutation<any, string>({
+            query: (id) => ({
+                url: `/blogs/select-featured/${id}`,
+                method: "PATCH",
+            }),
+            invalidatesTags: ["Blog"],
+        }),
     }),
 });
 
@@ -49,4 +56,5 @@ export const {
     useGetSingleBlogQuery,
     useUpdateBlogMutation,
     useDeleteBlogMutation,
+    useMakeBlogFeaturedMutation,
 } = blogApi;
