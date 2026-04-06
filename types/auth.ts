@@ -3,6 +3,8 @@ export interface IUser {
     name: string;
     email: string;
     role: "admin" | "user";
+    image?: string;
+    gender?: "male" | "female";
 }
 
 export interface ILoginInput {
