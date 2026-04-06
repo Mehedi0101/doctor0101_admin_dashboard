@@ -11,6 +11,7 @@ export interface IBookingData {
     customerName: string;
     customerEmail: string;
     customerContact: string;
+    customerImage?: string;
     pickup: string;
     destination: string;
     totalPassengers: number;

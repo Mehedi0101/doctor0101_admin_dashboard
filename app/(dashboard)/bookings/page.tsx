@@ -201,11 +201,10 @@ export default function AllBookingsPage() {
                                 >
                                     <td className="px-8 py-6">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
-                                                <span className="text-lg font-black text-primary">
-                                                    {booking.customerName?.charAt(0).toUpperCase() || "?"}
-                                                </span>
-                                            </div>
+                                            <CustomerAvatar 
+                                                src={booking.customerImage} 
+                                                name={booking.customerName || "Customer"} 
+                                            />
                                             <div>
                                                 <h4 className="font-black text-slate-900 group-hover:text-primary transition-colors line-clamp-1 text-base">{booking.customerName}</h4>
                                                 <div className="flex items-center gap-1.5 text-slate-500 mt-0.5">
@@ -396,3 +395,29 @@ function BookingsSkeleton() {
         </div>
     );
 }
+
+function CustomerAvatar({ src, name }: { src?: string; name: string }) {
+    const [hasError, setHasError] = useState(false);
+    
+    if (!src || hasError) {
+        return (
+            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
+                <span className="text-lg font-black text-primary">
+                    {name?.charAt(0).toUpperCase() || "?"}
+                </span>
+            </div>
+        );
+    }
+    
+    return (
+        <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 border border-slate-200 shadow-sm">
+            <img 
+                src={src} 
+                alt={name}
+                onError={() => setHasError(true)}
+                className="w-full h-full object-cover"
+            />
+        </div>
+    );
+}
+
