@@ -35,8 +35,13 @@ const baseQueryWithAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQuery
 
     if (result.error && result.error.status === 401) {
         // Server rejected the token — clear Redux state.
-        // AuthGuard will detect no token and redirect to /login automatically.
-        api.dispatch(logout());
+        // EXCEPT: Don't logout for change-password 401s, as those are often "wrong old password" errors.
+        const url = typeof args === "string" ? args : args.url;
+        const isChangePassword = url.includes("change-password");
+
+        if (!isChangePassword) {
+            api.dispatch(logout());
+        }
     }
     return result;
 };
