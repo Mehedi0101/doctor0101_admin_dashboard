@@ -149,8 +149,8 @@ export default function PrivacyPolicyPage() {
                         <div key={index}>
                             {editingIndex === index ? (
                                 <div className="bg-white p-8 md:p-12 rounded-[2.5rem] border-2 border-primary shadow-2xl animate-in zoom-in-95 duration-200">
-                                    <h4 className="font-bold text-primary mb-8 flex items-center gap-2 text-xl">
-                                        <EditIcon className="w-6 h-6" /> Editing Section #{index + 1}
+                                    <h4 className="font-bold text-primary mb-6 flex items-center gap-2">
+                                        <EditIcon className="w-5 h-5" /> Editing Section #{index + 1}
                                     </h4>
                                     <div className="space-y-8">
                                         <div className="space-y-3">
@@ -197,7 +197,7 @@ export default function PrivacyPolicyPage() {
                                                 <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary font-black">
                                                     {index + 1}
                                                 </div>
-                                                <h3 className="text-2xl font-black text-slate-900 leading-tight">
+                                                <h3 className="text-xl font-bold text-slate-900 leading-tight">
                                                     {section.title}
                                                 </h3>
                                             </div>
