@@ -40,16 +40,15 @@ export default function LoginPage() {
         <GuestGuard>
             <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 p-4">
                 <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-100 p-8">
-                    {/* Logo */}
-                    <div className="flex flex-col items-center mb-8">
+                    {/* Logo & Brand */}
+                    <div className="flex flex-col items-center mb-10 text-center">
                         <img
-                            src="/logo3.png"
+                            src="/logo.png"
                             alt="PuntaGo Logo"
-                            className="w-32 h-auto object-contain mb-2"
+                            className="w-24 h-24"
                         />
-                        <div className="px-3 py-1 bg-slate-50 border border-slate-100 rounded-full">
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.25em]">Admin Portal</span>
-                        </div>
+                        <h1 className="text-3xl font-black text-slate-900 tracking-tight -mt-4">PuntaGo</h1>
+                        <p className="text-slate-400 font-bold text-[10px] uppercase tracking-[0.2em] mt-2">Admin Portal</p>
                     </div>
 
                     <form onSubmit={handleLogin} className="space-y-5">

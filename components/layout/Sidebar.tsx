@@ -182,14 +182,17 @@ export default function Sidebar() {
 
     return (
         <div className="flex flex-col h-screen w-72 bg-sidebar-bg text-white border-r border-sidebar-border shrink-0 shadow-2xl overflow-hidden hidden-scrollbar">
-            <div className="p-6">
-                <div className="flex flex-col items-center">
+            <div className="p-8 border-b border-sidebar-border/50">
+                <div className="flex items-center gap-4">
                     <img
                         src="/logo.png"
                         alt="PuntaGo Logo"
-                        className="w-24 h-10 object-contain"
+                        className="w-16 h-16"
                     />
-                    <p className="text-slate-500 mt-2 uppercase text-xs font-bold tracking-widest text-center">Admin Dashboard</p>
+                    <div className="-ml-2">
+                        <h1 className="text-xl font-black text-white tracking-widest leading-none">PuntaGo</h1>
+                        <p className="text-[10px] text-primary/70 font-black uppercase tracking-[0.2em] mt-1.5 leading-none">Admin Portal</p>
+                    </div>
                 </div>
             </div>
 
