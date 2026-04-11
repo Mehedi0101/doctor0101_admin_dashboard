@@ -37,10 +37,10 @@ export default function AllNotificationsPage() {
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* Header Section */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
                     <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">Notification History</h1>
-                    <p className="text-slate-500 mt-2 text-lg">Manage all broadcasted messages and alerts.</p>
+                    <p className="text-slate-500 mt-2 font-medium">Manage all broadcasted messages and alerts.</p>
                 </div>
                 <div className="p-4 bg-primary/5 rounded-3xl border border-primary/10">
                     <Inbox className="w-8 h-8 text-primary" />
@@ -48,17 +48,15 @@ export default function AllNotificationsPage() {
             </div>
 
             {/* Search Bar */}
-            <div className="bg-white p-4 rounded-3xl border border-slate-100 shadow-sm flex items-center max-w-xl">
-                <div className="relative flex-1">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                    <input
-                        type="text"
-                        placeholder="Search notifications..."
-                        className="w-full pl-12 pr-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none font-medium text-slate-800"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
+            <div className="relative max-w-md group">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                <input
+                    type="text"
+                    placeholder="Search notifications..."
+                    className="w-full pl-11 pr-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-primary/5 outline-none font-medium transition-all"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
             </div>
 
             {/* Content Area */}
