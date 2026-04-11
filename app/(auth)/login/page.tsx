@@ -44,7 +44,7 @@ export default function LoginPage() {
                     <div className="flex flex-col items-center mb-8">
                         <img
                             src="/logo3.png"
-                            alt="Digital Ankle Logo"
+                            alt="PuntaGo Logo"
                             className="w-32 h-auto object-contain mb-2"
                         />
                         <div className="px-3 py-1 bg-slate-50 border border-slate-100 rounded-full">
@@ -66,7 +66,7 @@ export default function LoginPage() {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     className="block w-full pl-10 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-slate-900"
-                                    placeholder="admin@digitalankle.com"
+                                    placeholder="admin@puntago.com"
                                 />
                             </div>
                         </div>
@@ -115,7 +115,7 @@ export default function LoginPage() {
                 </div>
 
                 <p className="mt-8 text-slate-400 text-sm">
-                    © 2026 Digital Ankle. All rights reserved.
+                    © 2026 PuntaGo. All rights reserved.
                 </p>
             </div>
         </GuestGuard>

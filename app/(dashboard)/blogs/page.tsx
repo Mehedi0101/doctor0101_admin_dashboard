@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useGetAllBlogsQuery } from "@/redux/api/blogApi";
-import { Plus, Search, Calendar, Clock, Loader2, BookOpen } from "lucide-react";
+import { Plus, Search, Calendar, Clock, Loader2, BookOpen, Filter } from "lucide-react";
 import Link from "next/link";
 import dayjs from "dayjs";
 import { cn } from "@/lib/utils";
@@ -20,14 +20,14 @@ export default function AllBlogsPage() {
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* Header Section */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
                     <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">All Blogs</h1>
-                    <p className="text-slate-500 mt-2 text-lg">Manage your platform's articles and travel guides.</p>
+                    <p className="text-slate-500 mt-2 font-medium">Manage your platform&apos;s articles and travel guides.</p>
                 </div>
                 <Link
                     href="/blogs/add"
-                    className="bg-primary text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-3 shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all whitespace-nowrap"
+                    className="bg-primary text-white px-6 py-3.5 rounded-2xl font-bold flex items-center gap-3 shadow-xl shadow-primary/20 hover:scale-[1.03] active:scale-[0.97] transition-all whitespace-nowrap"
                 >
                     <Plus className="w-5 h-5" />
                     Write New Blog
@@ -35,17 +35,15 @@ export default function AllBlogsPage() {
             </div>
 
             {/* Search Bar */}
-            <div className="bg-white p-4 rounded-3xl border border-slate-100 shadow-sm flex items-center max-w-xl">
-                <div className="relative flex-1">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                    <input
-                        type="text"
-                        placeholder="Search blogs by title..."
-                        className="w-full pl-12 pr-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none font-medium"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
+            <div className="relative max-w-md group">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                <input
+                    type="text"
+                    placeholder="Search blogs by title..."
+                    className="w-full pl-11 pr-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-primary/5 outline-none font-medium transition-all"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
             </div>
 
             {/* Content Area */}

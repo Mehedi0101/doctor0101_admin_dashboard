@@ -7,7 +7,7 @@ import { AppInitializer } from "@/components/AppInitializer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Digital Ankle Admin Dashboard",
+  title: "PuntaGo Admin Dashboard",
   description: "Advanced administrative hub for your medical center.",
 };
 

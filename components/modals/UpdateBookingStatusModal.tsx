@@ -9,7 +9,8 @@ import {
     CircleDashed, 
     XCircle,
     CreditCard,
-    CalendarCheck
+    CalendarCheck,
+    Lock as LockIcon
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -120,7 +121,8 @@ export default function UpdateBookingStatusModal({
                             {BOOKING_STATUSES.map((status) => {
                                 const Icon = status.icon;
                                 const isSelected = bookingStatus === status.value;
-                                const isLocked = currentBookingStatus.toLowerCase() === "cancelled" && status.value !== "cancelled";
+                                const isLocked = (currentBookingStatus.toLowerCase() === "cancelled" && status.value !== "cancelled") || 
+                                                 (currentBookingStatus.toLowerCase() === "confirmed" && status.value === "pending");
 
                                 return (
                                     <button
@@ -129,20 +131,32 @@ export default function UpdateBookingStatusModal({
                                         disabled={isLocked}
                                         onClick={() => setBookingStatus(status.value)}
                                         className={cn(
-                                            "flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border-2 transition-all",
-                                            isLocked && "opacity-50 cursor-not-allowed bg-slate-50",
-                                            !isLocked && isSelected 
-                                                ? `${status.bg} ${status.border} shadow-sm scale-[1.02]` 
-                                                : !isLocked ? "bg-white border-slate-100 hover:border-slate-200 hover:bg-slate-50 text-slate-400" : ""
+                                            "relative flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border-2 transition-all overflow-hidden",
+                                            isLocked 
+                                                ? "cursor-not-allowed bg-slate-50/50 border-slate-100 opacity-40 grayscale" 
+                                                : isSelected 
+                                                    ? `${status.bg} ${status.border} shadow-sm scale-[1.02]` 
+                                                    : "bg-white border-slate-100 hover:border-primary/20 hover:bg-primary/5 text-slate-400"
                                         )}
                                     >
-                                        <Icon className={cn("w-6 h-6", isSelected ? status.color : "text-slate-400")} />
+                                        {isLocked && (
+                                            <div className="absolute top-2 right-2">
+                                                <LockIcon className="w-3 h-3 text-slate-400" />
+                                            </div>
+                                        )}
+                                        <Icon className={cn(
+                                            "w-6 h-6", 
+                                            isSelected && !isLocked ? status.color : "text-slate-400"
+                                        )} />
                                         <span className={cn(
                                             "font-bold text-sm tracking-wide",
-                                            isSelected ? status.color : "text-slate-500"
+                                            isSelected && !isLocked ? status.color : "text-slate-500"
                                         )}>
                                             {status.label}
                                         </span>
+                                        {isLocked && (
+                                            <div className="absolute inset-0 bg-slate-50/10 pointer-events-none" />
+                                        )}
                                     </button>
                                 );
                             })}
@@ -170,20 +184,32 @@ export default function UpdateBookingStatusModal({
                                         disabled={isLocked}
                                         onClick={() => setPaymentStatus(status.value)}
                                         className={cn(
-                                            "flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border-2 transition-all",
-                                            isLocked && "opacity-50 cursor-not-allowed bg-slate-50",
-                                            !isLocked && isSelected 
-                                                ? `${status.bg} ${status.border} shadow-sm scale-[1.02]` 
-                                                : !isLocked ? "bg-white border-slate-100 hover:border-slate-200 hover:bg-slate-50 text-slate-400" : ""
+                                            "relative flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border-2 transition-all overflow-hidden",
+                                            isLocked 
+                                                ? "cursor-not-allowed bg-slate-50/50 border-slate-100 opacity-40 grayscale" 
+                                                : isSelected 
+                                                    ? `${status.bg} ${status.border} shadow-sm scale-[1.02]` 
+                                                    : "bg-white border-slate-100 hover:border-primary/20 hover:bg-primary/5 text-slate-400"
                                         )}
                                     >
-                                        <Icon className={cn("w-6 h-6", isSelected ? status.color : "text-slate-400")} />
+                                        {isLocked && (
+                                            <div className="absolute top-2 right-2">
+                                                <LockIcon className="w-3 h-3 text-slate-400" />
+                                            </div>
+                                        )}
+                                        <Icon className={cn(
+                                            "w-6 h-6", 
+                                            isSelected && !isLocked ? status.color : "text-slate-400"
+                                        )} />
                                         <span className={cn(
                                             "font-bold text-sm tracking-wide",
-                                            isSelected ? status.color : "text-slate-500"
+                                            isSelected && !isLocked ? status.color : "text-slate-500"
                                         )}>
                                             {status.label}
                                         </span>
+                                        {isLocked && (
+                                            <div className="absolute inset-0 bg-slate-50/10 pointer-events-none" />
+                                        )}
                                     </button>
                                 );
                             })}

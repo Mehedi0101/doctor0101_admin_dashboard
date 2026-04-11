@@ -60,9 +60,11 @@ export default function WelcomePage() {
 
             {/* Footer Note */}
             <div className="mt-16 pt-8 border-t border-slate-100 w-full max-w-xs">
-                <p className="text-xs text-slate-400 font-medium uppercase tracking-widest">
-                    Digital Ankle Systems v1.0.0
-                </p>
+                <div className="flex items-center gap-3 text-slate-400 group cursor-default">
+                    <p className="text-sm font-black uppercase tracking-widest">
+                        PuntaGo Systems v1.0.0
+                    </p>
+                </div>
             </div>
         </div>
     );
